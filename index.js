@@ -1,6 +1,6 @@
 // Calculator project
 
-//Objects
+//Objects ///////////////////////////////////////////////////////////////
 const display = document.querySelector('.display');
 const numberButtons = Array.from(document.getElementsByClassName('numberButton'));
 const operationButtons = Array.from(document.getElementsByClassName('operationButton'));
@@ -8,27 +8,27 @@ const clearButton = document.querySelector('.clear')
 const calculateButton = document.querySelector('.equal')
 const calculator = {
     previousNumber: '',
-    currentNumber: '',
+    currentNumber: 0,
     total: '',
     operation: ''
 }
 
 
-//Functions
+//Functions ///////////////////////////////////////////////////////////////
 function updateDisplay (value) {
     display.innerText = value
 } 
 
 function clearCalculator() {
     calculator.previousNumber = ''
-    calculator.currentNumber = ''
+    calculator.currentNumber = 0
     calculator.total = ''
     calculator.operation = ''
-    updateDisplay(0)
+    updateDisplay(calculator.currentNumber = 0)
 }
 
 function calculateCalculator() {
-    console.log(calculator)
+    
     calculator.total = eval(
         calculator.previousNumber 
         + calculator.operation 
@@ -39,7 +39,7 @@ function calculateCalculator() {
 }
 
 function updateNumber(button) {
-    calculator.currentNumber = calculator.currentNumber + button.innerText
+    calculator.currentNumber = eval(calculator.currentNumber + button.innerText)
     updateDisplay(calculator.currentNumber)
 }
 
@@ -51,14 +51,14 @@ function updateOperation(button) {
     }
     else if (calculator.previousNumber != '' && calculator.currentNumber != '') {
         calculateCalculator()
-        
+
         updateDisplay(calculator.total)
     }
 
 }
 
 
-// Event Listeners
+// Event Listeners ///////////////////////////////////////////////////////////////
 
 //Number buttons
 for (let i = 0; i < numberButtons.length; i++) {
@@ -66,6 +66,16 @@ for (let i = 0; i < numberButtons.length; i++) {
         'click',
         function() {
             updateNumber(numberButtons[i])
+        }
+    )
+}
+
+//Operation buttons 
+for (let i = 0; i < operationButtons.length; i++) {
+    operationButtons[i].addEventListener(
+        'click',
+        function() {
+            updateOperation(operationButtons[i])
         }
     )
 }
@@ -82,12 +92,3 @@ calculateButton.addEventListener(
     function() {calculateCalculator()}
 )
 
-//Operation buttons 
-for (let i = 0; i < operationButtons.length; i++) {
-    operationButtons[i].addEventListener(
-        'click',
-        function() {
-            updateOperation(operationButtons[i])
-        }
-    )
-}
